@@ -1,0 +1,17 @@
+{
+  "name": "vanilla-js-boilerplate",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "author": "HelloMandu",
+  "license": "MIT",
+  "scripts": {
+    "build": "webpack --mode=production",
+    "build:dev": "webpack --mode=development"
+  },
+  "keywords": [],
+  "description": "",
+  "devDependencies": {
+    "webpack": "^5.82.0",
+    "webpack-cli": "^5.0.2"
+  }
+}
