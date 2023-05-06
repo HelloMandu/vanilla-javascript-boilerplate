@@ -1,9 +1,27 @@
 import './style.css';
+import Component from './core/Component';
 
-function component() {
-  const element = document.createElement('div');
-  element.innerHTML = 'Hello World';
-  return element;
+class App extends Component {
+  setup() {
+    this.state = { items: ['item1', 'item2'] };
+  }
+  template() {
+    const { items } = this.state;
+    return `
+        <ul>
+          ${items.map((item) => `<li>${item}</li>`).join('')}
+        </ul>
+        <button>추가</button>
+    `;
+  }
+
+  setEvent() {
+    this.$target.querySelector('button').addEventListener('click', () => {
+      const { items } = this.state;
+      this.setState({ items: [...items, `item${items.length + 1}`] });
+    });
+  }
 }
 
-document.body.appendChild(component());
+const app = document.getElementById('app');
+new App(app);

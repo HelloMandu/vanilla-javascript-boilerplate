@@ -1,19 +1,19 @@
-const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
-  entry: "./src/index.js",
+  entry: './src/index.js',
   output: {
-    filename: "[name].[hash].js",
-    path: path.resolve(__dirname, "build"),
+    filename: '[name].[hash].js',
+    path: path.resolve(__dirname, 'build'),
     clean: true,
   },
   module: {
     rules: [
       {
         test: /\.css$/i,
-        use: [MiniCssExtractPlugin.loader, "style-loader", "css-loader"],
+        use: [MiniCssExtractPlugin.loader, 'style-loader', 'css-loader'],
       },
     ],
   },
