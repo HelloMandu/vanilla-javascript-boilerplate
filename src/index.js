@@ -1,40 +1,89 @@
 import './style.css';
 import Component from './core/Component';
+import Items from './components/Items';
+import ItemAppender from './components/ItemAppender';
+import ItemFilter from './components/ItemFilter';
 
 class App extends Component {
   setup() {
-    this.state = { items: ['item1', 'item2'] };
+    this.state = {
+      isFilter: 0,
+      items: [
+        {
+          seq: 1,
+          contents: 'item1',
+          active: false,
+        },
+        {
+          seq: 2,
+          contents: 'item2',
+          active: true,
+        },
+      ],
+    };
   }
 
   template() {
-    const { items } = this.state;
-
-    const toItem = (item, key) => `
-          <li>
-            ${item}
-            <button class="deleteBtn" data-index="${key}">삭제</button>
-          </li>
-          `;
-
     return `
-        <ul>
-          ${items.map(toItem).join('')}
-        </ul>
-        <button class="addBtn">추가</button>
+      <header data-component="item-appender"></header>
+      <main data-component="items"></main>
+      <footer data-component="item-filter"></footer>
     `;
   }
 
-  setEvent() {
-    this.addEvent('click', '.addBtn', () => {
-      const { items } = this.state;
-      this.setState({ items: [...items, `item${items.length + 1}`] });
-    });
+  mounted() {
+    const { filteredItems, addItem, deleteItem, toggleItem, filterItem } = this;
+    const $itemAppender = this.$target.querySelector('[data-component="item-appender"]');
+    const $items = this.$target.querySelector('[data-component="items"]');
+    const $itemFilter = this.$target.querySelector('[data-component="item-filter"]');
 
-    this.addEvent('click', '.deleteBtn', ({ target }) => {
-      const items = [...this.state.items];
-      items.splice(target.dataset.index, 1);
-      this.setState({ items });
+    new ItemAppender($itemAppender, {
+      addItem: addItem.bind(this),
     });
+    new Items($items, {
+      filteredItems,
+      deleteItem: deleteItem.bind(this),
+      toggleItem: toggleItem.bind(this),
+    });
+    new ItemFilter($itemFilter, {
+      filterItem: filterItem.bind(this),
+    });
+  }
+
+  get filteredItems() {
+    const { isFilter, items } = this.state;
+    return items.filter(
+      ({ active }) => (isFilter === 1 && active) || (isFilter === 2 && !active) || isFilter === 0
+    );
+  }
+
+  addItem(contents) {
+    const { items } = this.state;
+    const seq = Math.max(0, ...items.map((v) => v.seq)) + 1;
+    const active = false;
+    this.setState({
+      items: [...items, { seq, contents, active }],
+    });
+  }
+
+  deleteItem(seq) {
+    const items = [...this.state.items];
+    items.splice(
+      items.findIndex((v) => v.seq === seq),
+      1
+    );
+    this.setState({ items });
+  }
+
+  toggleItem(seq) {
+    const items = [...this.state.items];
+    const index = items.findIndex((v) => v.seq === seq);
+    items[index].active = !items[index].active;
+    this.setState({ items });
+  }
+
+  filterItem(isFilter) {
+    this.setState({ isFilter });
   }
 }
 

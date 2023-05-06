@@ -1,17 +1,19 @@
 export default class Component {
   $target;
+  props;
   state;
 
-  constructor($target) {
+  constructor($target, props) {
     this.$target = $target;
+    this.props = props;
     this.setup();
     this.render();
     this.setEvent();
   }
 
-  setup() {
-    throw new Error('not implemented: setup state');
-  }
+  setup() {}
+
+  mounted() {}
 
   template() {
     return '';
@@ -19,11 +21,10 @@ export default class Component {
 
   render() {
     this.$target.innerHTML = this.template();
+    this.mounted();
   }
 
-  setEvent() {
-    throw new Error('not implemented: setEvent');
-  }
+  setEvent() {}
 
   setState(newState) {
     this.state = { ...this.state, ...newState };
