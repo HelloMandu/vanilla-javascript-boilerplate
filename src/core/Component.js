@@ -30,11 +30,12 @@ export default class Component {
     this.render();
   }
 
-  // addEvent(eventType, selector, callback) {
-  //   const children = [...this.$target.querySelectorAll(selector)];
-  //   this.$target.addEventListener(eventType, (event) => {
-  //     if (!event.target.closest(selector)) return false;
-  //     callback(event);
-  //   });
-  // }
+  addEvent(eventType, selector, callback) {
+    this.$target.addEventListener(eventType, (event) => {
+      if (!event.target.closest(selector)) {
+        return false;
+      }
+      callback(event);
+    });
+  }
 }
