@@ -5,6 +5,7 @@ export class Component {
 
   #updateQueue = [];
   #rafId = null;
+  #unmount = null;
 
   constructor($target, props) {
     this.$target = $target;
@@ -12,17 +13,25 @@ export class Component {
     this.setup();
     this.render();
     this.setEvent();
+
+    this.$target.addEventListener('DOMNodeRemovedFromDocument', this.#unmount);
+  }
+
+  #updateFromQueue() {
+    return this.#updateQueue.reduce(
+      (acc, updater) => (typeof updater === 'function' ? updater(acc) : { ...acc, ...updater }),
+      this.state
+    );
   }
 
   #batchUpdate() {
-    for (const updater of this.#updateQueue) {
-      if (typeof updater === 'function') {
-        this.state = updater(this.state);
-      } else {
-        this.state = { ...this.state, ...updater };
-      }
-    }
+    const updatedState = this.#updateFromQueue();
     this.#updateQueue = [];
+    const isEqual = JSON.stringify(this.state) === JSON.stringify(updatedState);
+    if (!isEqual) {
+      this.state = updatedState;
+      this.render();
+    }
   }
 
   setup() {}
@@ -35,7 +44,7 @@ export class Component {
 
   render() {
     this.$target.innerHTML = this.template();
-    this.mounted();
+    this.#unmount = this.mounted();
   }
 
   setEvent() {}
@@ -48,7 +57,6 @@ export class Component {
     this.#rafId = requestAnimationFrame(() => {
       this.#rafId = null;
       this.#batchUpdate();
-      this.render();
     });
   }
 

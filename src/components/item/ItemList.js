@@ -2,6 +2,7 @@ import { Component } from '@core';
 import ItemAppender from './ItemAppender';
 import Items from './Items';
 import ItemFilter from './ItemFilter';
+import Counter from '../counter/Counter';
 
 export default class ItemList extends Component {
   setup() {
@@ -27,6 +28,7 @@ export default class ItemList extends Component {
       <header data-component="item-appender"></header>
       <main data-component="items"></main>
       <footer data-component="item-filter"></footer>
+      <div data-component="counter"></div>
     `;
   }
 
@@ -42,6 +44,8 @@ export default class ItemList extends Component {
     new ItemFilter(this.$target.querySelector('[data-component="item-filter"]'), {
       filterItem: (isFilter) => this.filterItem(isFilter),
     });
+    this.state.isFilter === 0 &&
+      new Counter(this.$target.querySelector('[data-component="counter"]'));
   }
 
   get filteredItems() {
