@@ -1,10 +1,9 @@
-import './style.css';
-import Items from './components/Items';
-import ItemAppender from './components/ItemAppender';
-import ItemFilter from './components/ItemFilter';
 import { Component } from '@core';
+import ItemAppender from './ItemAppender';
+import Items from './Items';
+import ItemFilter from './ItemFilter';
 
-class App extends Component {
+export default class ItemList extends Component {
   setup() {
     this.state = {
       isFilter: 0,
@@ -89,6 +88,3 @@ class App extends Component {
     this.setState({ isFilter });
   }
 }
-
-const app = document.getElementById('app');
-new App(app);

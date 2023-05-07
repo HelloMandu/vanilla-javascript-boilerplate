@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
-  entry: './src/app.js',
+  entry: './src/App.js',
   output: {
     filename: '[name].[hash].js',
     path: path.resolve(__dirname, 'build'),

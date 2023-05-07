@@ -1,29 +1,34 @@
 import { createStore } from '@core';
 
-const COUNTER = 'count';
+// const middleware = () => (next) => (action) => {
+//   setTimeout(() => {
+//     console.log(1);
+//     next(action);
+//   }, 1000);
+// };
+//
+// const middleware2 = () => (next) => (action) => {
+//   setTimeout(() => {
+//     console.log(2);
+//     next(action);
+//   }, 1000);
+// };
 
-const middleware = () => (next) => (action) => {
-  setTimeout(() => {
-    console.log(1);
-    next(action);
-  }, 1000);
-};
+const INCREMENT = 'counter/increment';
+const DECREMENT = 'counter/decrement';
 
-const middleware2 = () => (next) => (action) => {
-  setTimeout(() => {
-    console.log(2);
-    next(action);
-  }, 1000);
-};
+export const increment = () => ({ type: INCREMENT });
+export const decrement = () => ({ type: DECREMENT });
 
-const reducer = (state, action) => {
-  if (action.type === COUNTER) {
-    return { ...state, count: action.payload.count };
+const reducer = (state = { count: 0 }, action) => {
+  switch (action.type) {
+    case INCREMENT:
+      return { ...state, count: state.count + 1 };
+    case DECREMENT:
+      return { ...state, count: state.count - 1 };
+    default:
+      return state;
   }
-  return state;
 };
 
-const store = createStore(reducer, [middleware, middleware2]);
-
-store.dispatch({ type: COUNTER, payload: { count: 1 } });
-store.subscribe(() => console.log(store.getState()));
+export const countStore = createStore(reducer);

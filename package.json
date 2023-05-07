@@ -1,7 +1,7 @@
 {
   "name": "vanilla-js-boilerplate",
   "version": "1.0.0",
-  "main": "src/app.js",
+  "main": "src/App.js",
   "author": "HelloMandu",
   "license": "MIT",
   "scripts": {
