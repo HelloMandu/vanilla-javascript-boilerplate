@@ -1,4 +1,4 @@
-import { createStore } from '@core/redux';
+import { createStore } from '@core';
 
 const COUNTER = 'count';
 

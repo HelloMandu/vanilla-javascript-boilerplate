@@ -2,7 +2,7 @@ import './style.css';
 import Items from './components/Items';
 import ItemAppender from './components/ItemAppender';
 import ItemFilter from './components/ItemFilter';
-import { Component } from '@core/Component';
+import { Component } from '@core';
 
 class App extends Component {
   setup() {
