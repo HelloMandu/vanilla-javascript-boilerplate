@@ -43,7 +43,6 @@ class App extends Component {
     new ItemFilter(this.$target.querySelector('[data-component="item-filter"]'), {
       filterItem: (isFilter) => this.filterItem(isFilter),
     });
-    console.log('mounted');
   }
 
   get filteredItems() {
