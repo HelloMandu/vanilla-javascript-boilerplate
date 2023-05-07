@@ -1,8 +1,8 @@
 import './style.css';
-import Component from './core/Component';
 import Items from './components/Items';
 import ItemAppender from './components/ItemAppender';
 import ItemFilter from './components/ItemFilter';
+import { Component } from '@core/Component';
 
 class App extends Component {
   setup() {
@@ -46,12 +46,16 @@ class App extends Component {
   }
 
   get filteredItems() {
-    return this.state.items.filter(
-      ({ active }) =>
-        (this.state.isFilter === 1 && active) ||
-        (this.state.isFilter === 2 && !active) ||
-        this.state.isFilter === 0
-    );
+    switch (this.state.isFilter) {
+      case 0:
+        return this.state.items;
+      case 1:
+        return this.state.items.filter(({ active }) => active);
+      case 2:
+        return this.state.items.filter(({ active }) => !active);
+      default:
+        return this.state.items;
+    }
   }
 
   addItem(contents) {
@@ -60,7 +64,7 @@ class App extends Component {
       contents,
       active: false,
     };
-    this.setState({ items: [...this.state.items, newItem] });
+    this.setState({ items: this.state.items.concat(newItem) });
   }
 
   deleteItem(seq) {

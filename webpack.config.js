@@ -18,4 +18,10 @@ module.exports = {
     ],
   },
   plugins: [new HtmlWebpackPlugin({ template: './src/index.html' }), new MiniCssExtractPlugin()],
+  resolve: {
+    alias: {
+      '@core': path.resolve(__dirname, 'src/core/'),
+    },
+    extensions: ['.js'],
+  },
 };
