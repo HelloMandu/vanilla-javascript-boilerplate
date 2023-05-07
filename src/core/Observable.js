@@ -12,11 +12,7 @@ export default class Observable {
   }
 
   setState(updater) {
-    if (typeof updater === 'function') {
-      this.state = updater(this.state);
-    } else {
-      this.state = updater;
-    }
+    this.state = typeof updater === 'function' ? updater(this.state) : updater;
     this.#notify();
   }
 

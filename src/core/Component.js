@@ -14,7 +14,7 @@ export class Component {
     this.render();
     this.setEvent();
 
-    this.$target.addEventListener('DOMNodeRemovedFromDocument', this.#unmount);
+    this.$target.addEventListener('DOMNodeRemovedFromDocument', (e) => this.#unmount?.(e));
   }
 
   #updateFromQueue() {
@@ -43,6 +43,7 @@ export class Component {
   }
 
   render() {
+    this.#unmount?.();
     this.$target.innerHTML = this.template();
     this.#unmount = this.mounted();
   }
