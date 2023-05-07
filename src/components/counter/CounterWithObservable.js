@@ -2,7 +2,7 @@ import { Component } from '@core';
 import { counter } from './store/CounterObserver';
 
 export default class CounterWithObservable extends Component {
-  template() {
+  render() {
     return `
       <div data-component="count"></div>
       <div data-component="buttons"></div>
@@ -27,7 +27,7 @@ class Count extends Component {
     return () => counter.unsubscribe(updateFromCounter);
   }
 
-  template() {
+  render() {
     return `
       <div>
         <span>${this.state.count}</span>
@@ -37,7 +37,7 @@ class Count extends Component {
 }
 
 class Button extends Component {
-  template() {
+  render() {
     return `
       <button class="increase">
         증가

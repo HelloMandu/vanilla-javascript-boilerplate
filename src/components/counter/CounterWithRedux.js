@@ -2,7 +2,7 @@ import { Component } from '@core';
 import { counterStore, decrement, increment } from './store/Counter';
 
 export default class CounterWithRedux extends Component {
-  template() {
+  render() {
     return `
       <div data-component="count"></div>
       <div data-component="buttons"></div>
@@ -26,7 +26,7 @@ class Count extends Component {
     return () => counterStore.unsubscribe(updateFromCounter);
   }
 
-  template() {
+  render() {
     return `
       <div>
         <span>${this.state.count}</span>
@@ -36,7 +36,7 @@ class Count extends Component {
 }
 
 class Button extends Component {
-  template() {
+  render() {
     return `
       <button class="increase">
         증가

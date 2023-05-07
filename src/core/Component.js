@@ -5,16 +5,16 @@ export class Component {
 
   #updateQueue = [];
   #rafId = null;
-  #unmount = null;
+  #unmounted = null;
 
   constructor($target, props) {
     this.$target = $target;
     this.props = props;
     this.setup();
-    this.render();
+    this.#mount();
     this.setEvent();
 
-    this.$target.addEventListener('DOMNodeRemovedFromDocument', (e) => this.#unmount?.(e));
+    this.$target.addEventListener('DOMNodeRemovedFromDocument', (e) => this.#unmounted?.(e));
   }
 
   #updateFromQueue() {
@@ -30,23 +30,23 @@ export class Component {
     const isEqual = JSON.stringify(this.state) === JSON.stringify(updatedState);
     if (!isEqual) {
       this.state = updatedState;
-      this.render();
+      this.#mount();
     }
+  }
+
+  #mount() {
+    this.#unmounted?.();
+    this.$target.innerHTML = this.render();
+    this.#unmounted = this.mounted();
   }
 
   setup() {}
 
-  mounted() {}
-
-  template() {
+  render() {
     return '';
   }
 
-  render() {
-    this.#unmount?.();
-    this.$target.innerHTML = this.template();
-    this.#unmount = this.mounted();
-  }
+  mounted() {}
 
   setEvent() {}
 

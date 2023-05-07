@@ -24,7 +24,7 @@ export default class ItemList extends Component {
     };
   }
 
-  template() {
+  render() {
     return `
       <header data-component="item-appender"></header>
       <main data-component="items"></main>

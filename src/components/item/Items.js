@@ -1,7 +1,7 @@
 import { Component } from '@core';
 
 export default class Items extends Component {
-  template() {
+  render() {
     return `
       <ul>
         ${this.props.filteredItems.map(this.toItem).join('')}
