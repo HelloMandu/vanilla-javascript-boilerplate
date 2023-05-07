@@ -31,4 +31,4 @@ const reducer = (state = { count: 0 }, action) => {
   }
 };
 
-export const countStore = createStore(reducer);
+export const counterStore = createStore(reducer);

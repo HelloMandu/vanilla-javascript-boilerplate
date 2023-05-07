@@ -1,7 +1,7 @@
 import { Component } from '@core';
-import { counter } from './store/CounterObserver';
+import { counterStore, decrement, increment } from './store/Counter';
 
-export default class Counter extends Component {
+export default class CounterWithRedux extends Component {
   template() {
     return `
       <div data-component="count"></div>
@@ -17,14 +17,13 @@ export default class Counter extends Component {
 
 class Count extends Component {
   setup() {
-    this.state = counter.getState();
+    this.state = counterStore.getState();
   }
 
   mounted() {
     const updateFromCounter = (state) => this.setState(state);
-
-    counter.subscribe(updateFromCounter);
-    return () => counter.unsubscribe(updateFromCounter);
+    counterStore.subscribe(updateFromCounter);
+    return () => counterStore.unsubscribe(updateFromCounter);
   }
 
   template() {
@@ -49,11 +48,7 @@ class Button extends Component {
   }
 
   setEvent() {
-    this.addEvent('click', '.increase', () => {
-      counter.setState((prevState) => ({ count: prevState.count + 1 }));
-    });
-    this.addEvent('click', '.decrease', () => {
-      counter.setState((prevState) => ({ count: prevState.count - 1 }));
-    });
+    this.addEvent('click', '.increase', () => counterStore.dispatch(increment()));
+    this.addEvent('click', '.decrease', () => counterStore.dispatch(decrement()));
   }
 }
