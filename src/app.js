@@ -83,11 +83,10 @@ class App extends Component {
         item.seq === seq ? { ...item, active: !item.active } : item
       ),
     }));
-    this.addItem('test');
   }
 
   filterItem(isFilter) {
-    this.setState((prev) => ({ ...prev, isFilter }));
+    this.setState({ isFilter });
   }
 }
 
