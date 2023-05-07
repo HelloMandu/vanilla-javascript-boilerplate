@@ -6,10 +6,11 @@ export default class ItemAppender extends Component {
   }
 
   setEvent() {
-    const { addItem } = this.props;
-    this.addEvent('keyup', '.appender', ({ key, target }) => {
-      if (key !== 'Enter') return;
-      addItem(target.value);
+    this.addEvent('keyup', '.appender', (e) => {
+      if (e.key !== 'Enter') {
+        return;
+      }
+      this.props.addItem(e.target.value);
     });
   }
 }
