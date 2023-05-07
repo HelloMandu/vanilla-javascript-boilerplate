@@ -1,4 +1,4 @@
-import Observable from '@core/Observable';
+import { Observable } from '@core';
 
 export const createStore = (reducer, middlewares = []) => {
   const store = new Observable(reducer(undefined, {}));
