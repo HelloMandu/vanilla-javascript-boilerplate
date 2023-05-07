@@ -3,12 +3,26 @@ export class Component {
   props;
   state;
 
+  #updateQueue = [];
+  #rafId = null;
+
   constructor($target, props) {
     this.$target = $target;
     this.props = props;
     this.setup();
     this.render();
     this.setEvent();
+  }
+
+  #batchUpdate() {
+    for (const updater of this.#updateQueue) {
+      if (typeof updater === 'function') {
+        this.state = updater(this.state);
+      } else {
+        this.state = { ...this.state, ...updater };
+      }
+    }
+    this.#updateQueue = [];
   }
 
   setup() {}
@@ -26,9 +40,16 @@ export class Component {
 
   setEvent() {}
 
-  setState(newState) {
-    this.state = { ...this.state, ...newState };
-    this.render();
+  setState(updater) {
+    this.#updateQueue.push(updater);
+    if (this.#rafId) {
+      return;
+    }
+    this.#rafId = requestAnimationFrame(() => {
+      this.#rafId = null;
+      this.#batchUpdate();
+      this.render();
+    });
   }
 
   addEvent(eventType, selector, callback) {

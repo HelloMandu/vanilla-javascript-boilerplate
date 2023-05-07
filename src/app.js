@@ -43,6 +43,7 @@ class App extends Component {
     new ItemFilter(this.$target.querySelector('[data-component="item-filter"]'), {
       filterItem: (isFilter) => this.filterItem(isFilter),
     });
+    console.log('mounted');
   }
 
   get filteredItems() {
@@ -59,28 +60,35 @@ class App extends Component {
   }
 
   addItem(contents) {
-    const newItem = {
-      seq: Math.max(0, ...this.state.items.map((v) => v.seq)) + 1,
-      contents,
-      active: false,
-    };
-    this.setState({ items: this.state.items.concat(newItem) });
+    this.setState((prev) => ({
+      ...prev,
+      items: prev.items.concat({
+        seq: Math.max(0, ...prev.items.map((v) => v.seq)) + 1,
+        contents,
+        active: false,
+      }),
+    }));
   }
 
   deleteItem(seq) {
-    this.setState({ items: this.state.items.filter((item) => item.seq !== seq) });
+    this.setState((prev) => ({
+      ...prev,
+      items: prev.items.filter((item) => item.seq !== seq),
+    }));
   }
 
   toggleItem(seq) {
-    this.setState({
-      items: this.state.items.map((item) =>
+    this.setState((prev) => ({
+      ...prev,
+      items: prev.items.map((item) =>
         item.seq === seq ? { ...item, active: !item.active } : item
       ),
-    });
+    }));
+    this.addItem('test');
   }
 
   filterItem(isFilter) {
-    this.setState({ isFilter });
+    this.setState((prev) => ({ ...prev, isFilter }));
   }
 }
 
