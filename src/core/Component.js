@@ -53,7 +53,7 @@ export class Component {
   setState(updater) {
     this.#updateQueue.push(updater);
     if (this.#rafId) {
-      return;
+      cancelAnimationFrame(this.#rafId);
     }
     this.#rafId = requestAnimationFrame(() => {
       this.#rafId = null;
